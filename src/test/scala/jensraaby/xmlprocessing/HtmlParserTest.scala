@@ -1,6 +1,6 @@
 package jensraaby.xmlprocessing
 
-import org.scalatest.{FlatSpec, Matchers, FunSuite}
+import org.scalatest.{FlatSpec, Matchers}
 
 
 /**
@@ -23,7 +23,8 @@ class HtmlParserTest extends FlatSpec with Matchers {
     val parser = new HtmlParser(basicHtml)
     val bodyText = parser.bodyText
 
-    bodyText shouldBe ("hellogoodbye")
+    bodyText should include("hello")
+    bodyText should include("goodbye")
   }
 
   "paragraphs" should "return a collection of strings" in {
@@ -33,6 +34,31 @@ class HtmlParserTest extends FlatSpec with Matchers {
     paragraphs.length shouldBe (2)
     paragraphs.head shouldBe ("hello")
     paragraphs.last shouldBe ("goodbye")
+  }
+
+  val htmlWithId =
+    """
+         <html>
+         <head></head>
+         <body>
+          <h1 id="header" class="big">greetings</h1>
+          <h2 id="subheader">this is a subheader</h2>
+         </body>
+         </html>
+    """
+
+  "cssClass" should "return the class attribute of the element with the given ID, or nothing" in {
+    val parser = new HtmlParser(htmlWithId)
+
+    val cssClassHeader = parser.cssClass("header")
+    cssClassHeader shouldBe ("big")
+  }
+
+  it should "not return anything for a non-existent ID" in {
+    val parser = new HtmlParser(htmlWithId)
+
+    val cssClassHeader = parser.cssClass("somethingNonExistent")
+    cssClassHeader shouldBe ("")
   }
 
 }

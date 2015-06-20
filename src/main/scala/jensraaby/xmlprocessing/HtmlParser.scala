@@ -8,16 +8,23 @@ import scala.xml._
 class HtmlParser(html: String) {
 
 
+
   val htmlElem = XML.loadString(html)
 
 
   def bodyText = {
-    val pTags = htmlElem \ "body" \ "p"
-    pTags.text
+    val bodyTag = htmlElem \ "body"
+    bodyTag.text
   }
 
   def paragraphs: Seq[String] = {
     val pTags = htmlElem \ "body" \ "p"
     pTags map (_.text)
+  }
+
+
+  def cssClass(elementId: String) = {
+    val element = htmlElem.descendant.filter(node => node \@ "id" == elementId)
+    element \@ "class"
   }
 }
