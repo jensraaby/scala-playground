@@ -1,8 +1,10 @@
 name := "scala-playground"
 
-version := "1.0"
+scalaVersion := "2.11.7"
 
-scalaVersion := "2.11.6"
+ScoverageSbtPlugin.ScoverageKeys.coverageMinimum := 70
+
+ScoverageSbtPlugin.ScoverageKeys.coverageFailOnMinimum := true
 
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
@@ -10,3 +12,4 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.3.11",
   "com.sachinhandiekar" % "jMusixMatch" % "1.1.2",
   "com.twitter" %% "finagle-http" % "6.25.0")
+
